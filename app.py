@@ -22,21 +22,91 @@ target = targets[trial]
 inp = inp.unsqueeze(0)
 inp.requires_grad = True
 
-p = 5
-t = 5
-
-out = model(inp)
-o1_, o2_ = out
-o1 = torch.stack(o1_).view(1,28,28)
-o1[:,t,p].view(1,1,1).backward(torch.ones(1,1,1).float()) 
-
-app = Flask(__name__)
 
 class NumpyArrayEncoder(JSONEncoder):
     def default(self, obj):
         if isinstance(obj, np.ndarray):
             return obj.tolist()
         return JSONEncoder.default(self, obj)
+
+grid_784 = []
+
+for t in range(28):
+    for p in range(28):
+        print(28*t+p)
+        out = model(inp)
+        o1_, o2_ = out
+        o1 = torch.stack(o1_).view(1,28,28)
+        o1[:,t,p].backward() 
+        gridData = []
+        for timestep in range(28):
+            for pixel in range(28):
+                eachData = {}
+                eachData['time'] = timestep+1
+                eachData['pixel'] =  pixel+1
+                eachData['value'] = inp.grad.data[0,timestep, pixel].numpy().copy()
+                gridData.append(eachData)
+        grid_784.append(gridData)
+        inp.grad.data.zero_()
+
+with open('gradients_1.json', 'w') as outfile:
+    json.dump(grid_784, outfile, cls=NumpyArrayEncoder)
+
+
+grid_784 = []
+
+for t in range(28):
+    for p in range(28):
+        print(28*t+p)
+        out = model(inp)
+        o1_, o2_ = out
+        o2 = torch.stack(o2_).view(1,28,28)
+        o2[:,t,p].backward() 
+        gridData = []
+        for timestep in range(28):
+            for pixel in range(28):
+                eachData = {}
+                eachData['time'] = timestep+1
+                eachData['pixel'] =  pixel+1
+                eachData['value'] = inp.grad.data[0,timestep, pixel].numpy().copy()
+                gridData.append(eachData)
+        grid_784.append(gridData)
+        inp.grad.data.zero_()
+
+with open('gradients_2.json', 'w') as outfile:
+    json.dump(grid_784, outfile, cls=NumpyArrayEncoder)
+
+gridData = []
+for timestep in range(28):
+    for pixel in range(28):
+        o1 = torch.FloatTensor(28, 28)
+        o1.zero_()
+        o1.scatter_(1, targets[0,:,0].long().view(28,1), 1)
+        eachData = {}
+        eachData['time'] = timestep+1
+        eachData['pixel'] =  pixel+1
+        eachData['value'] = o1[timestep, pixel].numpy()
+        gridData.append(eachData)
+with open('tracker_1.json', 'w') as outfile:
+    json.dump(gridData, outfile, cls=NumpyArrayEncoder)
+
+gridData = []
+for timestep in range(28):
+    for pixel in range(28):
+        o2 = torch.FloatTensor(28, 28)
+        o2.zero_()
+        o2.scatter_(1, targets[0,:,1].long().view(28,1), 1)
+        eachData = {}
+        eachData['time'] = timestep+1
+        eachData['pixel'] =  pixel+1
+        eachData['value'] = o2[timestep, pixel].numpy()
+        gridData.append(eachData)
+with open('tracker_2.json', 'w') as outfile:
+    json.dump(gridData, outfile, cls=NumpyArrayEncoder)
+
+app = Flask(__name__)
+
+
 
 # Index
 @app.route('/')
