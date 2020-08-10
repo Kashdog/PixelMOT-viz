@@ -97,9 +97,13 @@ svg4.append("g")
 .call(d3.axisLeft(y));
 
 // Build color scale
-var myColor = d3.scaleLinear()
+/*var myColor = d3.scaleLinear()
 .range(["white", "#69b3a2"])
-.domain([-10,10])
+.domain([-10,10])*/
+
+var myColor = d3.scaleLinear()
+  .domain([-3, 0, 3])
+  .range(["orange", "white", "green"])
 
 var trackingColor = d3.scaleSequential()
   .domain([0, 2])
@@ -177,6 +181,15 @@ render = async function(data){
                 .attr("width", x.bandwidth() )
                 .attr("height", y.bandwidth() )
                 .style("fill", d =>  myColor(d.value))
+                .append("div")
+                .style("opacity", 1)
+                .attr("class", "tooltip")
+                .style("background-color", "white")
+                .style("border", "solid")
+                .style("border-width", "10px")
+                .style("border-radius", "5px")
+                .style("stroke", "black")
+                .style("padding", "5px")
                 .call(enter => enter.transition(t)),
             update => update
                 .style("fill", function(d) { console.log("update"); return myColor(d.value)} )
