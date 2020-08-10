@@ -110,27 +110,21 @@ var trackingColor = d3.scaleSequential()
   .interpolator(d3.interpolateRainbow);
 
 var dataset1; 
-
-d3.json("gradients_1.json").then(function(data) {
-    dataset1 = data;
-    console.log(dataset1);
-    render(dataset1[0]);
-});
+var dataset2; 
 
 
-var dataset2;
-d3.json("gradients_2.json").then(function(data) {
-    dataset2 = data;
-    console.log(dataset2);
-    render2(dataset2[0]);
-});
+var tracker1 = [];
+var tracker2 = [];
 
 d3.json("tracker_1.json").then(function(data) {
     var data = data;
     const t = svg.transition()
         .duration(100);
     svg3.selectAll("rect")
-        .data(data, d => (d.pixel+':'+d.time))
+        .data(data, function (d) {
+            if (d.value == 1) tracker1.push(d);
+            return d.pixel+':'+d.time;
+        })
         .join(
             enter => enter.append("rect")
                 .attr("x", function(d) { return x(d.pixel) })
@@ -142,7 +136,7 @@ d3.json("tracker_1.json").then(function(data) {
         )
         .on('mouseover', function (d, i) {
             console.log(d);
-            render(dataset1[(d.time - 1)* 28 + (d.pixel-1)]);
+            render(dataset1[(d.time - 1)* 28 + (d.pixel-1)], d);
         })
 });
 
@@ -151,7 +145,10 @@ d3.json("tracker_2.json").then(function(data) {
     const t = svg.transition()
         .duration(100);
     svg4.selectAll("rect")
-        .data(data, d => (d.pixel+':'+d.time))
+        .data(data, function (d) {
+            if (d.value == 1) tracker2.push(d);
+            return d.pixel+':'+d.time;
+        })
         .join(
             enter => enter.append("rect")
                 .attr("x", function(d) { return x(d.pixel) })
@@ -163,13 +160,27 @@ d3.json("tracker_2.json").then(function(data) {
         )
         .on('mouseover', function (d, i) {
             console.log(d);
-            render(dataset2[(d.time - 1)* 28 + (d.pixel-1)]);
+            render(dataset2[(d.time - 1)* 28 + (d.pixel-1)], d);
         })
 });
 
+d3.json("gradients_1.json").then(function(data) {
+    dataset1 = data;
+    render(dataset1[0], {time: 1, pixel: 12, value: 1});
+});
 
-render = async function(data){
-    console.log(data);
+d3.json("gradients_2.json").then(function(data) {
+    dataset2 = data;
+});
+
+black = function(d1, d2, pixel, time, hp){
+    if (pixel == hp.pixel && time == hp.time) return "red"
+    if (pixel == d1.pixel && d1.value == 1) return "black"
+    if (pixel == d2.pixel && d2.value == 1) return "black"
+    return "none"
+}
+
+render = async function(data, hovered_pixel){
     const t = svg.transition()
         .duration(100);
     svg.selectAll("rect")
@@ -181,18 +192,14 @@ render = async function(data){
                 .attr("width", x.bandwidth() )
                 .attr("height", y.bandwidth() )
                 .style("fill", d =>  myColor(d.value))
-                .append("div")
                 .style("opacity", 1)
-                .attr("class", "tooltip")
-                .style("background-color", "white")
-                .style("border", "solid")
-                .style("border-width", "10px")
-                .style("border-radius", "5px")
-                .style("stroke", "black")
-                .style("padding", "5px")
+                .style("stroke", d =>  black(tracker1[d.time-1], tracker2[d.time-1], d.pixel, d.time, hovered_pixel))
+                .style("stroke-width", 2)
                 .call(enter => enter.transition(t)),
             update => update
                 .style("fill", function(d) { console.log("update"); return myColor(d.value)} )
+                .style("opacity", 1)
+                .style("stroke", d =>  black(tracker1[d.time-1], tracker2[d.time-1], d.pixel, d.time, hovered_pixel))
                 .call(update => update.transition(t)),
         )
 
