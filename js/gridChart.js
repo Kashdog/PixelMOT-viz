@@ -22,7 +22,7 @@ var myVars = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13
 var x = d3.scaleBand()
 .range([ 0, width ])
 .domain(myGroups)
-.padding(0.01);
+.padding(.05);
 svg.append("g")
 //.attr("transform", "translate(0," + height + ")")
 .call(d3.axisTop(x))
@@ -31,7 +31,7 @@ svg.append("g")
 var y = d3.scaleBand()
 .range([0, height ])
 .domain(myVars)
-.padding(0.01);
+.padding(.05);
 svg.append("g")
 .call(d3.axisLeft(y));
 
@@ -103,7 +103,7 @@ svg4.append("g")
 
 var myColor = d3.scaleLinear()
   .domain([-3, 0, 3])
-  .range(["orange", "white", "green"])
+  .range(["blue", "white", "red"])
 
 var trackingColor = d3.scaleSequential()
   .domain([0, 2])
@@ -174,7 +174,7 @@ d3.json("gradients_2.json").then(function(data) {
 });
 
 black = function(d1, d2, pixel, time, hp){
-    if (pixel == hp.pixel && time == hp.time) return "red"
+    if (pixel == hp.pixel && time == hp.time) return "green"
     if (pixel == d1.pixel && d1.value == 1) return "black"
     if (pixel == d2.pixel && d2.value == 1) return "black"
     return "none"
@@ -193,8 +193,9 @@ render = async function(data, hovered_pixel){
                 .attr("height", y.bandwidth() )
                 .style("fill", d =>  myColor(d.value))
                 .style("opacity", 1)
+                .style("padding", 4)
                 .style("stroke", d =>  black(tracker1[d.time-1], tracker2[d.time-1], d.pixel, d.time, hovered_pixel))
-                .style("stroke-width", 2)
+                .style("stroke-width", 1.5)
                 .call(enter => enter.transition(t)),
             update => update
                 .style("fill", function(d) { console.log("update"); return myColor(d.value)} )
