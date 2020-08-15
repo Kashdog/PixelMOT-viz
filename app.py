@@ -8,6 +8,10 @@ from models.blt import *
 
 model = torch.load("BLTadd0.pt", map_location=torch.device('cpu'))
 
+model = BLTnet("add")
+checkpoint = torch.load('filename.pth.tar')
+model.load_state_dict(checkpoint['state_dict'])
+
 for param in model.parameters():
     param.requires_grad = False
 

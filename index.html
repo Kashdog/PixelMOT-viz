@@ -1,39 +1,87 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>MyFlaskApp</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-  </head>
-  <body>
-    <div class="container">
-        <div class="jumbotron text-center">
-            <h1>Welcome To FlaskApp</h1>
-            <p class="lead">This application is built on the Python Flask framework</p>
-            <div class="container">
-                <div class="row">
-                  <div class="col-lg">
-                    <div id="gradient_object"></div>
-                  </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm">
-                      <div id="tracking_object1"></div>
-                    </div>
-                    <div class="col-sm">
-                      <div id="tracking_object2"></div>
-                    </div>
-                </div>
-            </div>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Pixel MOT</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'><link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div class="container">
+  <h1>Hover over the tracked positions of object 1 and 2 below to reveal the gradients for different models</h1>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="no_noisecheck" checked>
+        <label class="custom-control-label" for="no_noisecheck">No noise</label>
+      </div>
+    </li>
+    <li class="list-group-item">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="noise1check" checked>
+        <label class="custom-control-label" for="noise1check"> 0.1 Noise</label>
+      </div>
+    </li>
+    <li class="list-group-item">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="noise2check" checked>
+        <label class="custom-control-label" for="noise2check">0.25 Noise</label>
+      </div>
+    </li>
+  </ul>
+  
+  <div class="row">
+    <div class="col-md-12">
+      <div class="carousel slide multi-item-carousel" id="theCarousel">
+        <div class="carousel-inner">
+          <div class="item active">
+            <div class="col-xs-4"><div class="no_noise"></div></div>
+          </div>
+          <div class="item">
+            <div class="col-xs-4"><div class="noise1"></div></div>
+          </div>
+          <div class="item">
+            <div class="col-xs-4"><div class="noise2"></div></div>
+          </div>
+          
+          <!-- add  more items here -->
+          <!-- Example item start:  -->
+          
+          <!--  Example item end -->
         </div>
+        <a class="left carousel-control" href="#theCarousel" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
+        <a class="right carousel-control" href="#theCarousel" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
+      </div>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="//cdn.ckeditor.com/4.6.2/basic/ckeditor.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"></script>
-    <script src="https://d3js.org/d3.v5.min.js"></script>
-    <script src="https://d3js.org/queue.v1.min.js"></script>
-    <script src="js/gridChart.js"></script>
-  </body>
+  </div>
+  <div class="row">
+    <div class="col-xs-3"></div>
+    <div class="col-xs-3">
+      <div id="tracking_object1"></div>
+    </div>
+    <div class="col-xs-3">
+      <div id="tracking_object2"></div>
+    </div>
+    <div class="col-xs-3"></div>
+  </div>
+</div>
+<!-- partial -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
+<script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js'></script>
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script>
+  $(".custom-control-input").change(function() {
+    if ( $(this).is(':checked') ) {
+      $('.' + this.id.replace("check", "")).parent().show();
+    } else {
+      $('.' + this.id.replace("check", "")).parent().hide();
+    }
+  });
+</script>
+<script src="js/gridChart.js"></script>
+   
+    <script  src="js/script.js"></script>
+</body>
 </html>
