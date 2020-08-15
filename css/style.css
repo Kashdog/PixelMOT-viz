@@ -3,16 +3,16 @@
     transition: 500ms ease-in-out left;
   }
   .multi-item-carousel .carousel-inner .active.left {
-    left: -33%;
+    left: -50%;
   }
   .multi-item-carousel .carousel-inner .active.right {
-    left: 33%;
+    left: 50%;
   }
   .multi-item-carousel .carousel-inner .next {
-    left: 33%;
+    left: 50%;
   }
   .multi-item-carousel .carousel-inner .prev {
-    left: -33%;
+    left: -50%;
   }
   @media all and (transform-3d), (-webkit-transform-3d) {
     .multi-item-carousel .carousel-inner > .item {
@@ -43,6 +43,10 @@
     text-shadow: 0px 2px 0px #000000;
   }
 
-  .col-xs-4{
+  .col-xs-6{
     text-align: center;
+  }
+
+  text{
+    display: block;
   }
