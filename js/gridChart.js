@@ -294,7 +294,8 @@ populate_datasets().then(response =>{
             $(".custom-control-input").change(function() {
                 if ( $(this).is(':checked') ) {
                     $('.notitem').css("display", "");
-                    $('.notitem').addClass("item");
+                    //$('.notitem').addClass("item");
+                    $('.notitem').appendTo(".carousel-inner");
                     $('.notitem').removeClass("notitem");
                     var allgradients = $('.gradient:not([style*="display: none"])');
                     allgradients.appendTo(allgradients.parent().parent().parent());
@@ -334,6 +335,7 @@ populate_datasets().then(response =>{
                     }
                     visiblegradients.slice(0, 1).appendTo(cols[visiblegradients.length-1]);
                     $('.item').last().hide();
+                    $('.item').last().addClass("notitem");
                     $('.item').last().appendTo($('.item').last().parent().parent());
 
                 }
