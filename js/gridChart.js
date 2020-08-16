@@ -298,7 +298,7 @@ populate_datasets().then(response =>{
         });
         */
         show_gradients(selectors).then(
-            $(".ui-state-default").click(function() {
+            /*$(".ui-state-default").click(function() {
                 if ($(this).hasClass("white") ) {
                     $(this).removeClass("white");
                     $(this).addClass("gray");
@@ -314,7 +314,7 @@ populate_datasets().then(response =>{
                     firstitem.parent().parent().show();
                     firstitem.parent().parent().appendTo(".carousel-inner");
                 }
-            }),
+            }),*/
             $( "#sortable" ).sortable({
                 update: function(event, ui) {
                     var list = $('#sortable li');
