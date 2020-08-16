@@ -4,55 +4,37 @@
   <meta charset="UTF-8">
   <title>Pixel MOT</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'><link rel="stylesheet" href="css/style.css">
+<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="css/style.css">
 
 </head>
 <body>
 <!-- partial:index.partial.html -->
 <div class="container">
   <h1>Hover over the tracked positions of object 1 and 2 below to reveal the gradients for different models</h1>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">
-      <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="no_noisecheck" checked>
-        <label class="custom-control-label" for="no_noisecheck">No noise</label>
-      </div>
-    </li>
-    <li class="list-group-item">
-      <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="noise1check" checked>
-        <label class="custom-control-label" for="noise1check"> 0.1 Noise</label>
-      </div>
-    </li>
-    <li class="list-group-item">
-      <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="noise2check" checked>
-        <label class="custom-control-label" for="noise2check">0.25 Noise</label>
-      </div>
-    </li>
+  <lead>Drag the icons below to reorder the Graphs</lead>
+  <ul id="sortable">
+    <li class="ui-state-default white" id="no_noisechecked" data-sort="1">No Noise</li>
+    <li class="ui-state-default white" id="noise1checked" data-sort="2">Noise 1</li>
+    <li class="ui-state-default white" id="noise2checked" data-sort="3">Noise 2</li>
   </ul>
+   
   
   <div class="row">
     <div class="col-md-12">
       <div class="carousel slide multi-item-carousel" id="theCarousel">
         <div class="carousel-inner">
-          <div class="item active">
+          <div class="item active inline">
             <div class="col-xs-6"><div class="gradient no_noise" data-sort='1'></div></div>
           </div>
-          <div class="item">
+          <div class="item inline">
             <div class="col-xs-6"><div class="gradient noise1" data-sort='2'></div></div>
           </div>
-          <div class="item">
+          <div class="item inline">
             <div class="col-xs-6"><div class="gradient noise2" data-sort='3'></div></div>
           </div>
-          
-          <!-- add  more items here -->
-          <!-- Example item start:  -->
-          
-          <!--  Example item end -->
-        </div>
-        <a class="left carousel-control" href="#theCarousel" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
-        <a class="right carousel-control" href="#theCarousel" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
+        </div> 
       </div>
     </div>
   </div>
@@ -69,8 +51,10 @@
 </div>
 <!-- partial -->
   <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js'></script>
 <script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="js/nestable.js"></script>
 <script>
 
  

@@ -50,3 +50,22 @@
   text{
     display: block;
   }
+
+  .carousel-inner{
+    overflow: auto;
+    white-space: nowrap;
+  }
+
+  .inline{
+    display: inline-block !important;
+  }
+
+  .gray{
+    background-color: gray;
+  }
+  .white{
+    background-color: rgb(246,246,246);
+  }
+  #sortable { list-style-type: none; margin: 0; padding: 0; width: 450px; }
+  #sortable li { margin: 3px 3px 3px 0; padding: 1px; float: left; width: 50px; height: 45px; font-size: 1em; text-align: center; }
+ 

@@ -2,8 +2,8 @@ var formatAsInteger = d3.format(",");
 
 // set the dimensions and margins of the graph
 var margin = {top: 30, right: 30, bottom: 30, left: 30},
-width = 400 - margin.left - margin.right,
-height = 400 - margin.top - margin.bottom;
+width = 500 - margin.left - margin.right,
+height = 500 - margin.top - margin.bottom;
 
 // Labels of row and columns
 var myGroups = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28" ];
@@ -266,16 +266,23 @@ populate_datasets = async function(){
     return "Done";
 }
 
+$( function() {
+    $( "#sortable" ).sortable();
+    $( "#sortable" ).disableSelection();
+  } );
+
 populate_datasets().then(response =>{
     if(response){
         console.log(datasets1.length);
         // Instantiate the Bootstrap carousel
+        /*
         $('.multi-item-carousel').carousel({
             interval: false
         });
         
         // for every slide in carousel, copy the next slide's item in the slide.
-        // Do the same for the next, next item.
+        // Do the same for the next, next item. 
+
         $('.multi-item-carousel .item').each(function(){
             var next = $(this).next();
             if (!next.length) {
@@ -288,58 +295,47 @@ populate_datasets().then(response =>{
             } else {
                 $(this).siblings(':first').children(':first-child').clone().appendTo($(this));
             }
-            */
         });
+        */
         show_gradients(selectors).then(
-            $(".custom-control-input").change(function() {
-                if ( $(this).is(':checked') ) {
-                    $('.notitem').css("display", "");
-                    //$('.notitem').addClass("item");
-                    $('.notitem').appendTo(".carousel-inner");
-                    $('.notitem').removeClass("notitem");
-                    var allgradients = $('.gradient:not([style*="display: none"])');
-                    allgradients.appendTo(allgradients.parent().parent().parent());
-                    
-                    $(".gradient").sort(function (a, b) {
-                        var contentA =parseInt( $(a).data('sort'));
-                        var contentB =parseInt( $(b).data('sort'));
-                        return (contentA < contentB) ? -1 : (contentA > contentB) ? 1 : 0;
-                    }).appendTo($(".gradient").parent());
-                    var allgradients = $(".gradient");
-                    allgradients.show();
-                    var cols = $(".col-xs-6");
-                    for(var i = 1; i < allgradients.length; i+=1){
-                        allgradients.slice(i, i+1).appendTo(cols[i-1]);
-                    }
-                    allgradients.slice(0, 1).appendTo(cols[allgradients.length-1]);
+            $(".ui-state-default").click(function() {
+                if ($(this).hasClass("white") ) {
+                    $(this).removeClass("white");
+                    $(this).addClass("gray");
+                    var firstitem = $('.' + this.id.replace("checked", "")) 
+                    console.log(firstitem);    
+                    firstitem.parent().parent().hide();
+                    firstitem.parent().parent().appendTo(firstitem.parent().parent().parent().parent());
+                    //allgradients.slice(0, 1).appendTo(cols[allgradients.length-1]);
                 } else {
-                    var allgradients = $(".gradient");
-                    allgradients.appendTo(allgradients.parent().parent().parent());
-                    var firstitem = $('.' + this.id.replace("check", "")).first();
-                    var lastitem = $('.' + this.id.replace("check", "")).last();
-                    firstitem.hide();
-                    lastitem.hide();
-                    var visiblegradients = $('.gradient:not([style*="display: none"])');
-                    visiblegradients.sort(function (a, b) {
+                    $(this).addClass("white");
+                    $(this).removeClass("gray");
+                    var firstitem = $('.' + this.id.replace("checked", ""))      
+                    firstitem.parent().parent().show();
+                    firstitem.parent().parent().appendTo(".carousel-inner");
+                }
+            }),
+            $( "#sortable" ).sortable({
+                update: function(event, ui) {
+                    var list = $('#sortable li');
+                    $('.gradient').appendTo($('.gradient').parent().parent().parent());
+                    $('.gradient').sort(function (a, b) {
                     var contentA =parseInt( $(a).data('sort'));
                     var contentB =parseInt( $(b).data('sort'));
                     return (contentA < contentB) ? -1 : (contentA > contentB) ? 1 : 0;
-                    }).appendTo(visiblegradients.parent());
-                    var s = visiblegradients.length;
+                    }).appendTo($('.gradient').parent());
                     var cols = $(".col-xs-6");
-                    for(var i = 0; i < visiblegradients.length; i+=1){
-                        console.log(visiblegradients.slice(i, i+1).attr("class"));
+                    var gradients = [];
+                    for(var i = 0; i < cols.length; i++){
+                        gradients.push($('.gradient').slice(list[i].getAttribute("data-sort")-1, list[i].getAttribute("data-sort")));
                     }
-                    for(var i = 1; i < visiblegradients.length; i+=1){
-                    visiblegradients.slice(i, i+1).appendTo(cols[i-1]);
-                    }
-                    visiblegradients.slice(0, 1).appendTo(cols[visiblegradients.length-1]);
-                    $('.item').last().hide();
-                    $('.item').last().addClass("notitem");
-                    $('.item').last().appendTo($('.item').last().parent().parent());
-
+                    $.each(gradients, function(index, value){
+                        $(this).appendTo(cols[index]);
+                    });
                 }
             })
+
+           
         );
         
         
