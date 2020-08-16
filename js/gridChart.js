@@ -333,9 +333,8 @@ populate_datasets().then(response =>{
                     visiblegradients.slice(i, i+1).appendTo(cols[i-1]);
                     }
                     visiblegradients.slice(0, 1).appendTo(cols[visiblegradients.length-1]);
-                    $('.item').last().addClass("notitem");
-                    $('.item').last().removeClass("item");
-                    $('.notitem').last().hide();
+                    $('.item').last().hide();
+                    $('.item').last().appendTo($('.item').last().parent().parent());
 
                 }
             })
