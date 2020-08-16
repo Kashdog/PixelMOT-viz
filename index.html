@@ -37,13 +37,13 @@
       <div class="carousel slide multi-item-carousel" id="theCarousel">
         <div class="carousel-inner">
           <div class="item active">
-            <div class="col-xs-6"><div class="no_noise"></div></div>
+            <div class="col-xs-6"><div class="gradient no_noise" data-sort='1'></div></div>
           </div>
           <div class="item">
-            <div class="col-xs-6"><div class="noise1"></div></div>
+            <div class="col-xs-6"><div class="gradient noise1" data-sort='2'></div></div>
           </div>
           <div class="item">
-            <div class="col-xs-6"><div class="noise2"></div></div>
+            <div class="col-xs-6"><div class="gradient noise2" data-sort='3'></div></div>
           </div>
           
           <!-- add  more items here -->
@@ -72,13 +72,8 @@
 <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js'></script>
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script>
-  $(".custom-control-input").change(function() {
-    if ( $(this).is(':checked') ) {
-      $('.' + this.id.replace("check", "")).parent().show();
-    } else {
-      $('.' + this.id.replace("check", "")).parent().hide();
-    }
-  });
+
+ 
 </script>
 <script src="js/gridChart.js"></script>
    

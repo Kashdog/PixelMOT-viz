@@ -290,7 +290,57 @@ populate_datasets().then(response =>{
             }
             */
         });
-        show_gradients(selectors);
+        show_gradients(selectors).then(
+            $(".custom-control-input").change(function() {
+                if ( $(this).is(':checked') ) {
+                    $('.notitem').css("display", "");
+                    $('.notitem').addClass("item");
+                    $('.notitem').removeClass("notitem");
+                    var allgradients = $('.gradient:not([style*="display: none"])');
+                    allgradients.appendTo(allgradients.parent().parent().parent());
+                    
+                    $(".gradient").sort(function (a, b) {
+                        var contentA =parseInt( $(a).data('sort'));
+                        var contentB =parseInt( $(b).data('sort'));
+                        return (contentA < contentB) ? -1 : (contentA > contentB) ? 1 : 0;
+                    }).appendTo($(".gradient").parent());
+                    var allgradients = $(".gradient");
+                    allgradients.show();
+                    var cols = $(".col-xs-6");
+                    for(var i = 1; i < allgradients.length; i+=1){
+                        allgradients.slice(i, i+1).appendTo(cols[i-1]);
+                    }
+                    allgradients.slice(0, 1).appendTo(cols[allgradients.length-1]);
+                } else {
+                    var allgradients = $(".gradient");
+                    allgradients.appendTo(allgradients.parent().parent().parent());
+                    var firstitem = $('.' + this.id.replace("check", "")).first();
+                    var lastitem = $('.' + this.id.replace("check", "")).last();
+                    firstitem.hide();
+                    lastitem.hide();
+                    var visiblegradients = $('.gradient:not([style*="display: none"])');
+                    visiblegradients.sort(function (a, b) {
+                    var contentA =parseInt( $(a).data('sort'));
+                    var contentB =parseInt( $(b).data('sort'));
+                    return (contentA < contentB) ? -1 : (contentA > contentB) ? 1 : 0;
+                    }).appendTo(visiblegradients.parent());
+                    var s = visiblegradients.length;
+                    var cols = $(".col-xs-6");
+                    for(var i = 0; i < visiblegradients.length; i+=1){
+                        console.log(visiblegradients.slice(i, i+1).attr("class"));
+                    }
+                    for(var i = 1; i < visiblegradients.length; i+=1){
+                    visiblegradients.slice(i, i+1).appendTo(cols[i-1]);
+                    }
+                    visiblegradients.slice(0, 1).appendTo(cols[visiblegradients.length-1]);
+                    $('.item').last().addClass("notitem");
+                    $('.item').last().removeClass("item");
+                    $('.notitem').last().hide();
+
+                }
+            })
+        );
+        
         
     }
     
